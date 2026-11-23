@@ -236,28 +236,44 @@ function ListView({
               const isOpen = open === date;
               const panelId = `entry-${date}`;
               return (
-                <article key={date} className={isOpen ? 'entry-expanded' : 'entry-collapsed'}>
-                  <button
-                    className="entry-head"
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() => setOpen(isOpen ? null : date)}
+                isOpen ? (
+                  // The whole expanded card collapses on click, except the Delete button.
+                  <article
+                    key={date}
+                    className="entry-expanded is-clickable"
+                    onClick={(e) => {
+                      if (!(e.target as HTMLElement).closest('.btn-delete, .entry-head')) setOpen(null);
+                    }}
                   >
-                    <span className={`entry-date ${isOpen ? 'accent' : ''}`}>{longDate(date)}</span>
-                    <img src={isOpen ? collapseIcon : expandIcon} width={18} height={18} alt="" />
-                  </button>
-                  <div id={panelId} className="entry-panel">
-                    {isOpen ? (
-                      <>
-                        <Responses entry={entry} />
-                        <DeleteButton date={date} onClick={() => onAskDelete(date)} />
-                      </>
-                    ) : (
-                      <p className="entry-preview">{entry.responses[0]}</p>
-                    )}
-                  </div>
-                  {!isOpen && <div className="divider" />}
-                </article>
+                    <button className="entry-head" aria-expanded="true" aria-controls={panelId} onClick={() => setOpen(null)}>
+                      <span className="entry-date accent">{longDate(date)}</span>
+                      <img src={collapseIcon} width={18} height={18} alt="" />
+                    </button>
+                    <div id={panelId} className="entry-panel">
+                      <Responses entry={entry} />
+                      <DeleteButton date={date} onClick={() => onAskDelete(date)} />
+                    </div>
+                  </article>
+                ) : (
+                  // The whole collapsed row (date, preview and chevron) is one button.
+                  <article key={date} className="entry-collapsed">
+                    <button
+                      className="entry-row"
+                      aria-expanded="false"
+                      aria-controls={panelId}
+                      onClick={() => setOpen(date)}
+                    >
+                      <span className="entry-head">
+                        <span className="entry-date">{longDate(date)}</span>
+                        <img src={expandIcon} width={18} height={18} alt="" />
+                      </span>
+                      <span id={panelId} className="entry-preview">
+                        {entry.responses[0]}
+                      </span>
+                    </button>
+                    <div className="divider" />
+                  </article>
+                )
               );
             })}
           </div>

@@ -743,3 +743,27 @@ body.no-scroll {
     max-width: 20ch;
   }
 }
+
+/* Whole-row tap targets in the List view */
+.entry-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+}
+.entry-row .entry-preview {
+  display: block;
+}
+.entry-row:hover .entry-date,
+.entry-expanded.is-clickable:hover .entry-date {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.entry-expanded.is-clickable {
+  cursor: pointer;
+}
+.entry-expanded.is-clickable .btn-delete {
+  cursor: pointer;
+}
