@@ -756,11 +756,6 @@ body.no-scroll {
 .entry-row .entry-preview {
   display: block;
 }
-.entry-row:hover .entry-date,
-.entry-expanded.is-clickable:hover .entry-date {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
 .entry-expanded.is-clickable {
   cursor: pointer;
 }
